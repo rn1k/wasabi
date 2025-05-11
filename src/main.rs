@@ -108,7 +108,21 @@ pub fn hlt() {
 #[no_mangle]
 fn efi_main(_image_handle: EfiHandle, efi_system_table: &EfiSystemTable) {
     let mut vram = init_vram(efi_system_table).expect("init vram failed");
+    for y in 0..vram.height {
+        for x in 0..vram.width {
+            if let Some(pixel) = vram.pixel_at_mut(x, y) {
+                *pixel = 0x00ff00;
+            }
+        }
     }
+    for y in 0..vram.height / 2 {
+        for x in 0..vram.width / 2 {
+            if let Some(pixel) = vram.pixel_at_mut(x, y) {
+                *pixel = 0xff0000;
+            }
+        }
+    }
+
     // println!("Hello, world!");
     loop {
         hlt()
