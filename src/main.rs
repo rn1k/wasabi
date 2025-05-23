@@ -137,6 +137,8 @@ fn efi_main(_image_handle: EfiHandle, efi_system_table: &EfiSystemTable) {
         let _ = draw_font_fg(&mut vram, i as i64 * 16 + 256, i as i64 * 16, 0xffffff, c);
     }
 
+    draw_str_fg(&mut vram, 256, 256, 0xffffff, "Hello, world!");
+
     // println!("Hello, world!");
     loop {
         hlt()
@@ -321,4 +323,10 @@ fn lookup_font(c: char) -> Option<[[char; 8]; 16]> {
         }
     }
     None
+}
+
+fn draw_str_fg<T: Bitmap>(buf: &mut T, x: i64, y: i64, color: u32, s: &str) {
+    for (i, c) in s.chars().enumerate() {
+        let _ = draw_font_fg(buf, x + i as i64 * 8, y, color, c);
+    }
 }
