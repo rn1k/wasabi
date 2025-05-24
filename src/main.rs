@@ -41,7 +41,7 @@ enum EfiStatus {
 
 #[repr(C)]
 struct EfiBootServicesTable {
-    _reserved: [u64; 40],
+    _reserved0: [u64; 40],
     locate_protocol: extern "win64" fn(
         protocol: *const EfiGuid,
         registration: *const EfiVoid,
@@ -52,7 +52,7 @@ const _: () = assert!(offset_of!(EfiBootServicesTable, locate_protocol) == 320);
 
 #[repr(C)]
 struct EfiSystemTable {
-    _reserved: [u64; 12],
+    _reserved0: [u64; 12],
     pub boot_services: &'static EfiBootServicesTable,
 }
 const _: () = assert!(offset_of!(EfiSystemTable, boot_services) == 96);
